@@ -11,14 +11,6 @@
 \makeatletter
 \renewcommand{\@seccntformat}[1]{\csname the#1\endcsname\quad}
 
-% Заголовки section — нормальный размер шрифта (ГОСТ: 14pt, жирный)
-\renewcommand\section{%
-  \@startsection{section}{1}{\z@}%
-    {-3ex \@plus -1ex \@minus -.2ex}%
-    {1.5ex \@plus .2ex}%
-    {\centering\normalfont\normalsize\bfseries}%
-}
-
 % Подзаголовки subsubsection по центру и жирным
 \renewcommand\subsubsection{%
   \@startsection{subsubsection}{3}{\z@}%
@@ -31,7 +23,6 @@
 % Листинги кода
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage{etoolbox}
 \definecolor{codebg}{rgb}{0.96,0.96,0.96}
 \lstset{
   backgroundcolor=\color{codebg},
@@ -43,18 +34,17 @@
   framesep=4pt,
   xleftmargin=10pt,
   xrightmargin=10pt,
-  tabsize=2,
+  tabsize=4,
 }
-% Одинарный интервал внутри листингов (код не требует 1.5)
-\BeforeBeginEnvironment{lstlisting}{\begingroup\singlespacing}
-\AfterEndEnvironment{lstlisting}{\endgroup}
+
+\usepackage{enumitem}
+\setlist[enumerate]{label=\arabic*., nosep}
+
+\usepackage{enumitem}
+\setlist[itemize]{nosep}
 
 % URL-адреса
 \usepackage[hyphens]{url}
-
-% Убираем лишние отступы между пунктами списков (ГОСТ не требует)
-\usepackage{enumitem}
-\setlist{itemsep=0pt,parsep=0pt,topsep=4pt,partopsep=0pt}
 
 % Плавающие объекты с фиксированным размещением
 \usepackage{float}
@@ -110,7 +100,9 @@
 \end{center}
 }
 
-\noindent на тему: «Проектирование базы данных для системы обмена книгами».\\[0.5cm]
+\begin{center}
+\noindent на тему: «Проектирование и разработка базы данных для веб-сервиса обмена книгами».\\[0.5cm]    
+\end{center}
 
 {\small
 \hfill
@@ -140,7 +132,7 @@
 \end{minipage}
 }
 
-\vskip 0.4cm
+\bigskip
 \begin{center}
 Москва, 2026
 \end{center}
@@ -192,22 +184,15 @@
 Для достижения поставленной цели необходимо выполнить следующие задачи:
 
 \begin{enumerate}
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
 \def\labelenumi{\arabic{enumi}.}
-\item
-  Рассмотреть теоретические основы проектирования информационных систем.
-\item
-  Изучить классификацию баз данных по модели данных и обосновать выбор
-  реляционной модели для разрабатываемого сервиса.
-\item
-  Спроектировать логическую структуру базы данных: выделить сущности,
-  атрибуты, связи, привести схему к третьей нормальной форме.
-\item
-  Реализовать базу данных в PostgreSQL.
-\item
-  Создать систему индексов для оптимизации производительности запросов.
-\item
-  Разработать и протестировать ключевые запросы, охватывающие основные
-  сценарии работы сервиса.
+\item Рассмотреть теоретические основы проектирования информационных систем.
+\item Изучить классификацию баз данных по модели данных и обосновать выбор реляционной модели для разрабатываемого сервиса.
+\item Спроектировать логическую структуру базы данных: выделить сущности, атрибуты, связи, привести схему к третьей нормальной форме.
+\item Реализовать базу данных в PostgreSQL.
+\item Создать систему индексов для оптимизации производительности запросов.
+\item Разработать и протестировать ключевые запросы, охватывающие основные сценарии работы сервиса.
 \end{enumerate}
 
 Актуальность данной работы обусловлена тем, что существующие аналоги
@@ -1046,8 +1031,8 @@ bio (краткая биографическая справка). Такое р�
 имеет ограничение NOT NULL, так как имя автора -- обязательный атрибут.
 Поле bio такого ограничения не имеет.
 
+\newpage
 \textbf{Таблица 2 - books}
-
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2135}}
@@ -1090,8 +1075,8 @@ author\_id имеют ограничение NOT NULL, так как назва�
 являются обязательными атрибутами. Поля genre, isbn и published\_year
 такого ограничения не имеют.
 
+\newpage
 \textbf{Таблица 3 - users}
-
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2136}}
@@ -1296,8 +1281,8 @@ exchanges ссылаются отзывы: отзыв можно написат�
 обмену. Первичным ключом таблицы является поле id. Поля request\_id и
 completed\_at имеют ограничение NOT NULL.
 
+\newpage
 \textbf{Таблица 7 - reviews}
-
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2127}}
@@ -1392,8 +1377,8 @@ NULL. Рейтинг пользователя вычисляется как ср
 другого участника поблизости. Первичным ключом таблицы является поле id
 (тип SERIAL). Поля user\_id и book\_id имеют ограничение NOT NULL.
 
+\newpage
 \textbf{Таблица 9 - notifications}
-
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2121}}
@@ -1434,8 +1419,7 @@ NULL. Рейтинг пользователя вычисляется как ср
 ключом, ссылающимся на таблицу users.
 
 Поле type (тип VARCHAR(50)) разграничивает причины отправки уведомлений:
-wishlist\_match (появилась книга из вишлиста), exchange\_accepted
-(запрос на обмен подтверждён) и другие события. Это позволяет на стороне
+wishlist\_match, exchange\_accepted и другие события. Это позволяет на стороне
 приложения фильтровать и группировать уведомления по типу без
 необходимости разбора текстового сообщения. Первичным ключом таблицы
 является поле id (тип SERIAL). Поля user\_id, type и message имеют
@@ -1468,7 +1452,6 @@ pg\_trgm обеспечивает поддержку триграммных ин
 \end{center}
 \begin{lstlisting}
 CREATE EXTENSION postgis;
-
 CREATE EXTENSION pg_trgm;
 \end{lstlisting}
 
@@ -1504,22 +1487,14 @@ exchanges.
 \end{center}
 \begin{lstlisting}
 CREATE TABLE authors;
-
-CREATE TABLE books; -- ссылается на authors
-
+CREATE TABLE books; - ссылается на authors
 CREATE TABLE users;
-
-CREATE TABLE user_books; -- ссылается на users, books
-
-CREATE TABLE exchange_requests; -- ссылается на users, user_books
-
-CREATE TABLE exchanges; -- ссылается на exchange_requests
-
-CREATE TABLE reviews; -- ссылается на exchanges, users
-
-CREATE TABLE wishlists; -- ссылается на users, books
-
-CREATE TABLE notifications; -- ссылается на users
+CREATE TABLE user_books; - ссылается на users, books
+CREATE TABLE exchange_requests; - ссылается на users, user_books
+CREATE TABLE exchanges; - ссылается на exchange_requests
+CREATE TABLE reviews; - ссылается на exchanges, users
+CREATE TABLE wishlists; - ссылается на users, books
+CREATE TABLE notifications; - ссылается на users
 \end{lstlisting}
 
 Для поля updated\_at в таблице exchange\_requests создаётся триггер,
@@ -1532,25 +1507,15 @@ CREATE TABLE notifications; -- ссылается на users
 \end{center}
 \begin{lstlisting}
 CREATE OR REPLACE FUNCTION set_updated_at()
-
 RETURNS TRIGGER AS $$
-
 BEGIN
-
 NEW.updated_at = NOW();
-
 RETURN NEW;
-
 END;
-
 $$ LANGUAGE plpgsql;
-
 CREATE TRIGGER update_exchange_requests_updated_at
-
 BEFORE UPDATE ON exchange_requests
-
 FOR EACH ROW
-
 EXECUTE FUNCTION set_updated_at();
 \end{lstlisting}
 
@@ -1558,18 +1523,15 @@ EXECUTE FUNCTION set_updated_at();
 обратном созданию. Параметр CASCADE автоматически удаляет зависимые
 объекты.
 
+\newpage
 \begin{center}
 Листинг 5 -- Порядок удаления таблиц
 \end{center}
 \begin{lstlisting}
 DROP TABLE IF EXISTS notifications, wishlists, reviews;
-
 DROP TABLE IF EXISTS exchanges, exchange_requests;
-
 DROP TABLE IF EXISTS user_books, users;
-
 DROP TABLE IF EXISTS books, authors;
-
 DROP TYPE IF EXISTS request_status, book_status;
 \end{lstlisting}
 
@@ -1616,11 +1578,8 @@ CREATE INDEX idx_user_books_location ON user_books USING GIST
 Листинг 7 -- Триграммные индексы для текстового поиска
 \end{center}
 \begin{lstlisting}
-CREATE INDEX idx_books_title ON books USING GIN (title
-gin_trgm_ops);
-
-CREATE INDEX idx_authors_full_name ON authors USING GIN (full_name
-gin_trgm_ops);
+CREATE INDEX idx_books_title ON books USING GIN (title gin_trgm_ops);
+CREATE INDEX idx_authors_full_name ON authors USING GIN (full_name gin_trgm_ops);
 \end{lstlisting}
 
 PostgreSQL автоматически создаёт B-tree индексы только для первичных
@@ -1633,31 +1592,16 @@ PostgreSQL автоматически создаёт B-tree индексы то�
 \end{center}
 \begin{lstlisting}
 CREATE INDEX idx_books_author_id ON books(author_id);
-
-CREATE INDEX idx_user_books_user_book ON user_books(user_id,
-book_id);
-
-CREATE INDEX idx_exchange_requests_initiator ON
-exchange_requests(initiator_id);
-
-CREATE INDEX idx_exchange_requests_offered ON
-exchange_requests(offered_book_id);
-
-CREATE INDEX idx_exchange_requests_requested ON
-exchange_requests(requested_book_id);
-
+CREATE INDEX idx_user_books_user_book ON user_books(user_id, book_id);
+CREATE INDEX idx_exchange_requests_initiator ON exchange_requests(initiator_id);
+CREATE INDEX idx_exchange_requests_offered ON exchange_requests(offered_book_id);
+CREATE INDEX idx_exchange_requests_requested ON exchange_requests(requested_book_id);
 CREATE INDEX idx_exchanges_request_id ON exchanges(request_id);
-
 CREATE INDEX idx_reviews_exchange_id ON reviews(exchange_id);
-
 CREATE INDEX idx_reviews_reviewer_id ON reviews(reviewer_id);
-
 CREATE INDEX idx_reviews_reviewee_id ON reviews(reviewee_id);
-
 CREATE INDEX idx_wishlists_user_id ON wishlists(user_id);
-
 CREATE INDEX idx_wishlists_book_id ON wishlists(book_id);
-
 CREATE INDEX idx_notifications_user_id ON notifications(user_id);
 \end{lstlisting}
 
@@ -1666,6 +1610,7 @@ CREATE INDEX idx_notifications_user_id ON notifications(user_id);
 given\_away в поиске не участвуют, поэтому включать их в индекс нет
 смысла. Частичный индекс меньше по размеру и быстрее обновляется.
 
+\newpage
 \begin{center}
 Листинг 9 -- Частичный индекс (только доступные экземпляры)
 \end{center}
@@ -1701,14 +1646,10 @@ status = 'available';
 \end{center}
 \begin{lstlisting}
 SELECT title, author, owner, owner_rating, distance_km
-
 FROM user_books
-
 JOIN books, authors, users
-
 WHERE status = 'available'AND
 ST_DWithin(location, user_location, 5000)
-
 ORDER BY distance_km;
 \end{lstlisting}
 
@@ -1726,18 +1667,10 @@ GiST-индекс поля location: функция ST\_DWithin использу
 \end{center}
 \begin{lstlisting}
 SELECT title, author, genre, published_year, relevance
-
 FROM books
-
 JOIN authors
-
-WHERE title ILIKE '%query%'OR author
-ILIKE '%query%'
-
-ORDER BY similarity(title || '
-' || author, query) DESC
-
-LIMIT 20;
+WHERE title ILIKE '%query%'OR author ILIKE '%query%'
+ORDER BY similarity(title || '' || author, query) DESC LIMIT 20;
 \end{lstlisting}
 
 Запрос осуществляет поиск книг по подстроке одновременно в поле title
@@ -1756,14 +1689,9 @@ SELECT request_id, status, initiator, offered_book, requested_book,
 CASE WHEN initiator = current_user THEN
 'outgoing'ELSE
 'incoming'END AS direction
-
 FROM exchange_requests
-
 JOIN user_books AS offered, user_books AS requested, books, users
-
-WHERE status = 'pending'AND (initiator
-= current_user OR requested_book_owner = current_user)
-
+WHERE status = 'pending'AND (initiator = current_user OR requested_book_owner = current_user)
 ORDER BY created_at DESC;
 \end{lstlisting}
 
@@ -1781,19 +1709,11 @@ user\_books дважды с использованием различных пс
 \begin{lstlisting}
 SELECT title, author, created_at, COUNT(available_instances) AS
 available_count
-
 FROM wishlists
-
 JOIN books, authors
-
-LEFT JOIN user_books ON user_books.book_id = books.id AND
-user_books.status = 'available'AND
-user_books.user_id != current_user
-
+LEFT JOIN user_books ON user_books.book_id = books.id AND user_books.status = 'available'AND user_books.user_id != current_user
 WHERE wishlists.user_id = current_user
-
 GROUP BY books.id
-
 ORDER BY available_count DESC;
 \end{lstlisting}
 
@@ -1812,15 +1732,10 @@ available\_count выводит книги с доступными экземп�
 SELECT username, stored_rating, ROUND(AVG(rating), 2) AS
 calculated_rating, COUNT(reviews) AS reviews_count, COUNT(exchanges)
 AS exchanges_count
-
 FROM users
-
 LEFT JOIN reviews ON reviews.reviewee_id = users.id
-
 LEFT JOIN exchanges ON exchanges.user_id = users.id
-
 WHERE users.id = target_user_id
-
 GROUP BY users.id;
 \end{lstlisting}
 
@@ -1902,6 +1817,9 @@ BookSwap: геолокационный поиск книг, полнотекст
 \addcontentsline{toc}{section}{Библиографический список}
 
 \begin{thebibliography}{20}
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
 
 \bibitem{c1}
   Буч Г., Рамбо Д., Якобсон А. Язык UML. Руководство пользователя / Г.
@@ -2017,14 +1935,13 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE TYPE book_status AS ENUM (
 'available',
 'in_exchange',
-'given_away'
-);
+'given_away');
+
 CREATE TYPE request_status AS ENUM (
 'pending',
 'accepted',
 'declined',
-'cancelled'
-);
+'cancelled');
 \end{lstlisting}
 
 \begin{center}
@@ -2034,16 +1951,16 @@ CREATE TYPE request_status AS ENUM (
 CREATE TABLE authors (
 id SERIAL PRIMARY KEY,
 full_name VARCHAR(255) NOT NULL,
-bio TEXT
-);
+bio TEXT);
+
 CREATE TABLE books (
 id SERIAL PRIMARY KEY,
 title VARCHAR(500) NOT NULL,
 author_id INTEGER NOT NULL REFERENCES authors(id),
 genre VARCHAR(100),
 isbn VARCHAR(20) UNIQUE,
-published_year SMALLINT
-);
+published_year SMALLINT);
+
 CREATE TABLE users (
 id SERIAL PRIMARY KEY,
 username VARCHAR(100) NOT NULL UNIQUE,
@@ -2053,8 +1970,7 @@ is_verified BOOLEAN NOT NULL DEFAULT false,
 is_active BOOLEAN NOT NULL DEFAULT true,
 verified_at TIMESTAMPTZ,
 rating NUMERIC(3,2) NOT NULL DEFAULT 0,
-created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+created_at TIMESTAMPTZ NOT NULL DEFAULT now());
 CREATE TABLE user_books (
 id SERIAL PRIMARY KEY,
 user_id INTEGER NOT NULL REFERENCES users(id),
@@ -2062,8 +1978,8 @@ book_id INTEGER NOT NULL REFERENCES books(id),
 status book_status NOT NULL DEFAULT
 'available',
 location GEOGRAPHY(POINT, 4326) NOT NULL,
-added_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+added_at TIMESTAMPTZ NOT NULL DEFAULT now());
+
 CREATE TABLE exchange_requests (
 id SERIAL PRIMARY KEY,
 initiator_id INTEGER NOT NULL REFERENCES users(id),
@@ -2072,13 +1988,13 @@ requested_book_id INTEGER NOT NULL REFERENCES user_books(id),
 status request_status NOT NULL DEFAULT
 'pending',
 created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-updated_at TIMESTAMPTZ
-);
+updated_at TIMESTAMPTZ);
+
 CREATE TABLE exchanges (
 id SERIAL PRIMARY KEY,
 request_id INTEGER NOT NULL UNIQUE REFERENCES exchange_requests(id),
-completed_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+completed_at TIMESTAMPTZ NOT NULL DEFAULT now());
+
 CREATE TABLE reviews (
 id SERIAL PRIMARY KEY,
 exchange_id INTEGER NOT NULL REFERENCES exchanges(id),
@@ -2086,23 +2002,22 @@ reviewer_id INTEGER NOT NULL REFERENCES users(id),
 reviewee_id INTEGER NOT NULL REFERENCES users(id),
 rating SMALLINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
 comment TEXT,
-created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+
 CREATE TABLE wishlists (
 id SERIAL PRIMARY KEY,
 user_id INTEGER NOT NULL REFERENCES users(id),
 book_id INTEGER NOT NULL REFERENCES books(id),
 created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-UNIQUE (user_id, book_id)
-);
+UNIQUE (user_id, book_id));
+
 CREATE TABLE notifications (
 id SERIAL PRIMARY KEY,
 user_id INTEGER NOT NULL REFERENCES users(id),
 type VARCHAR(50) NOT NULL,
 message TEXT NOT NULL,
 is_read BOOLEAN NOT NULL DEFAULT false,
-created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+created_at TIMESTAMPTZ NOT NULL DEFAULT now());
 \end{lstlisting}
 
 \begin{center}
@@ -2138,27 +2053,22 @@ DROP TYPE IF EXISTS request_status CASCADE;
 DROP TYPE IF EXISTS book_status CASCADE;
 \end{lstlisting}
 
+\bigskip
 \textbf{Приложение 2}
 
 \begin{center}
 Листинг 2.1 -- Создание всех индексов
 \end{center}
 \begin{lstlisting}
-CREATE INDEX idx_user_books_location ON user_books USING GIST
-(location);
-CREATE INDEX idx_books_title_trgm ON books USING GIN (title
-gin_trgm_ops);
-CREATE INDEX idx_authors_full_name_trgm ON authors USING GIN
-(full_name gin_trgm_ops);
+CREATE INDEX idx_user_books_location ON user_books USING GIST (location);
+CREATE INDEX idx_books_title_trgm ON books USING GIN (title gin_trgm_ops);
+CREATE INDEX idx_authors_full_name_trgm ON authors USING GIN (full_name gin_trgm_ops);
 CREATE INDEX idx_books_author_id ON books (author_id);
 CREATE INDEX idx_user_books_user_id ON user_books (user_id);
 CREATE INDEX idx_user_books_book_id ON user_books (book_id);
-CREATE INDEX idx_exch_req_initiator_id ON exchange_requests
-(initiator_id);
-CREATE INDEX idx_exch_req_offered_book ON exchange_requests
-(offered_book_id);
-CREATE INDEX idx_exch_req_requested_book ON exchange_requests
-(requested_book_id);
+CREATE INDEX idx_exch_req_initiator_id ON exchange_requests (initiator_id);
+CREATE INDEX idx_exch_req_offered_book ON exchange_requests(offered_book_id);
+CREATE INDEX idx_exch_req_requested_book ON exchange_requests (requested_book_id);
 CREATE INDEX idx_exchanges_request_id ON exchanges (request_id);
 CREATE INDEX idx_reviews_exchange_id ON reviews (exchange_id);
 CREATE INDEX idx_reviews_reviewer_id ON reviews (reviewer_id);
@@ -2166,89 +2076,44 @@ CREATE INDEX idx_reviews_reviewee_id ON reviews (reviewee_id);
 CREATE INDEX idx_wishlists_user_id ON wishlists (user_id);
 CREATE INDEX idx_wishlists_book_id ON wishlists (book_id);
 CREATE INDEX idx_notifications_user_id ON notifications (user_id);
-CREATE INDEX idx_user_books_available ON user_books (user_id) WHERE
-status = 'available';
+CREATE INDEX idx_user_books_available ON user_books (user_id) WHERE status = 'available';
 \end{lstlisting}
 
 \textbf{Таблица 10 - Индексы базы данных BookSwap}
 
-
-\begin{longtable}[]{@{}
-  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.4434}}
-  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2339}}
+\begin{longtable}[c]{@{}
+  >{\raggedright\arraybackslash\hspace{0pt}}p{(\linewidth - 6\tabcolsep) * \real{0.4434}}
+  >{\raggedright\arraybackslash\hspace{0pt}}p{(\linewidth - 6\tabcolsep) * \real{0.2339}}
   >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0961}}
-  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2176}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\centering
-\textbf{Таблица.поле}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Тип}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Метод}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Назначение}
-\end{minipage} \\
-\midrule\noalign{}
+  >{\raggedright\arraybackslash\hspace{0pt}}p{(\linewidth - 6\tabcolsep) * \real{0.2176}}@{}}
+\toprule
+\textbf{Таблица.поле} & \textbf{Тип} & \textbf{Метод} & \textbf{Назначение} \\
+\midrule
+\endfirsthead
+\multicolumn{4}{l}{\textit{Продолжение таблицы 10}} \\
+\toprule
+\textbf{Таблица.поле} & \textbf{Тип} & \textbf{Метод} & \textbf{Назначение} \\
+\midrule
 \endhead
-\bottomrule\noalign{}
+\bottomrule
 \endlastfoot
-\textbf{user\_books.location} & Пространственный & GiST & Геопоиск в
-радиусе (ST\_DWithin) \\
+\textbf{user\_books.location} & Пространственный & GiST & Геопоиск в радиусе (ST\_DWithin) \\
 \textbf{books.title} & Текстовый & GIN & Поиск по подстроке названия \\
-\textbf{authors.full\_name} & Текстовый & GIN & Поиск по подстроке имени
-автора \\
-\textbf{books.author\_id} & Внешний ключ & B-tree & Ускорение JOIN с
-authors \\
-\textbf{user\_books.user\_id} & Внешний ключ & B-tree & Ускорение JOIN с
-users \\
-\textbf{user\_books.book\_id} & Внешний ключ & B-tree & Ускорение JOIN с
-books \\
-\textbf{exchange\_requests.initiator\_id} & Внешний ключ & B-tree &
-Запросы инициатора \\
-\textbf{exchange\_requests.offered\_book\_id} & Внешний ключ & B-tree &
-Проверка предлагаемой книги \\
-\textbf{exchange\_requests.requested\_book\_id} & Внешний ключ & B-tree
-& Проверка желаемой книги \\
-\textbf{exchanges.request\_id} & Внешний ключ & B-tree & Связь с
-exchange\_requests \\
-\textbf{reviews.exchange\_id} & Внешний ключ & B-tree & Отзывы по
-обмену \\
-\textbf{reviews.reviewer\_id} & Внешний ключ & B-tree & Отзывы от
-пользователя \\
-\textbf{reviews.reviewee\_id} & Внешний ключ & B-tree & Отзывы о
-пользователе \\
-\end{longtable}
-
-\emph{Продолжение таблицы 10}
-
-
-\begin{longtable}[]{@{}
-  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.4434}}
-  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2339}}
-  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0961}}
-  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2176}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\centering
-\textbf{Таблица.поле}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Тип}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Метод}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Назначение}
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-\textbf{wishlists.user\_id} & Внешний ключ & B-tree & Вишлист
-пользователя \\
-\textbf{wishlists.book\_id} & Внешний ключ & B-tree & Книги в
-вишлистах \\
-\textbf{notifications.user\_id} & Внешний ключ & B-tree & Уведомления
-пользователя \\
-\textbf{user\_books.status=' available'{}}
-& Частичный & B-tree & Только доступные экземпляры \\
+\textbf{authors.full\_name} & Текстовый & GIN & Поиск по подстроке имени автора \\
+\textbf{books.author\_id} & Внешний ключ & B-tree & Ускорение JOIN с authors \\
+\textbf{user\_books.user\_id} & Внешний ключ & B-tree & Ускорение JOIN с users \\
+\textbf{user\_books.book\_id} & Внешний ключ & B-tree & Ускорение JOIN с books \\
+\textbf{exchange\_requests.initiator\_id} & Внешний ключ & B-tree & Запросы инициатора \\
+\textbf{exchange\_requests.offered\_book\_id} & Внешний ключ & B-tree & Проверка предлагаемой книги \\
+\textbf{exchange\_requests.requested\_book\_id} & Внешний ключ & B-tree & Проверка желаемой книги \\
+\textbf{exchanges.request\_id} & Внешний ключ & B-tree & Связь с exchange\_requests \\
+\textbf{reviews.exchange\_id} & Внешний ключ & B-tree & Отзывы по обмену \\
+\textbf{reviews.reviewer\_id} & Внешний ключ & B-tree & Отзывы от пользователя \\
+\textbf{reviews.reviewee\_id} & Внешний ключ & B-tree & Отзывы о пользователе \\
+\textbf{wishlists.user\_id} & Внешний ключ & B-tree & Вишлист пользователя \\
+\textbf{wishlists.book\_id} & Внешний ключ & B-tree & Книги в вишлистах \\
+\textbf{notifications.user\_id} & Внешний ключ & B-tree & Уведомления пользователя \\
+\textbf{user\_books.status='available'} & Частичный & B-tree & Только доступные экземпляры \\
 \end{longtable}
 
 \textbf{Приложение 3}
@@ -2257,61 +2122,34 @@ exchange\_requests \\
 Листинг 3.1 -- Поиск книг в радиусе 5 км
 \end{center}
 \begin{lstlisting}
-SELECT
-ub.id AS user_book_id,
-b.title AS book_title,
-a.full_name AS author,
-b.genre,
-u.username AS owner,
-u.rating AS owner_rating,
-ROUND(ST_Distance(ub.location,ST_MakePoint(:lng, :lat)::GEOGRAPHY) /
-1000.0,2) AS distance_km
+SELECT ub.id AS user_book_id, b.title AS book_title, a.full_name AS author, b.genre, u.username AS owner, u.rating AS owner_rating, ROUND(ST_Distance(ub.location,ST_MakePoint(:lng, :lat)::GEOGRAPHY) /1000.0,2) AS distance_km
 FROM user_books ub
 JOIN books b ON b.id = ub.book_id
 JOIN authors a ON a.id = b.author_id
 JOIN users u ON u.id = ub.user_id
-WHERE ub.status = 'available'AND
-ST_DWithin(ub.location, ST_MakePoint(:lng, :lat)::GEOGRAPHY, 5000)
+WHERE ub.status = 'available'AND ST_DWithin(ub.location, ST_MakePoint(:lng, :lat)::GEOGRAPHY, 5000)
 ORDER BY distance_km;
 \end{lstlisting}
 
+\newpage
 \begin{center}
 Листинг 3.2 -- Полнотекстовый поиск по названию и автору
 \end{center}
 \begin{lstlisting}
-SELECT
-b.id,
-b.title,
-a.full_name AS author,
-b.genre,
-b.published_year,
-GREATEST (similarity (b.title, :query), similarity(a.full_name,
-:query)) AS relevance
+SELECT b.id, b.title, a.full_name AS author, b.genre, b.published_year, GREATEST (similarity (b.title, :query), similarity(a.full_name, :query)) AS relevance
 FROM books b
 JOIN authors a ON a.id = b.author_id
-WHERE b.title ILIKE '%'
-|| :query ||
-'%'OR a.full_name ILIKE
-'%' || :query
-|| '%'
-ORDER BY relevance DESC
-LIMIT 20;
+WHERE b.title ILIKE '%' || :query || '%' OR a.full_name ILIKE '%' || :query || '%'
+ORDER BY relevance DESC LIMIT 20;
 \end{lstlisting}
 
 \begin{center}
 Листинг 3.3 -- Активные запросы на обмен пользователя
 \end{center}
 \begin{lstlisting}
-SELECT
-er.id AS request_id,
-er.status,
-er.created_at,
-initiator.username AS initiator,
-bo.title AS offered_book,
-br.title AS requested_book,
+SELECT er.id AS request_id, er.status, er.created_at, initiator.username AS initiator, bo.title AS offered_book, br.title AS requested_book, 
 CASE
-WHEN er.initiator_id = :user_id THEN
-'outgoing'
+WHEN er.initiator_id = :user_id THEN 'outgoing'
 ELSE 'incoming'
 END AS direction
 FROM exchange_requests er
@@ -2320,8 +2158,7 @@ JOIN user_books offered ON offered.id = er.offered_book_id
 JOIN user_books requested ON requested.id = er.requested_book_id
 JOIN books bo ON bo.id = offered.book_id
 JOIN books br ON br.id = requested.book_id
-WHERE er.status = 'pending'AND
-(er.initiator_id = :user_id OR requested.user_id = :user_id)
+WHERE er.status = 'pending' AND (er.initiator_id = :user_id OR requested.user_id = :user_id)
 ORDER BY er.created_at DESC;
 \end{lstlisting}
 
@@ -2329,41 +2166,27 @@ ORDER BY er.created_at DESC;
 Листинг 3.4 -- Вишлист пользователя с доступными экземплярами
 \end{center}
 \begin{lstlisting}
-SELECT
-b.id,
-b.title,
-a.full_name AS author,
-b.genre,
-w.created_at AS added_to_wishlist,
-COUNT(ub.id) AS available_count
+SELECT b.id, b.title, a.full_name AS author, b.genre, w.created_at AS added_to_wishlist, COUNT(ub.id) AS available_count
 FROM wishlists w
 JOIN books b ON b.id = w.book_id
 JOIN authors a ON a.id = b.author_id
-LEFT JOIN user_books ub ON ub.book_id = w.book_id AND ub.status =
-'available'AND ub.user_id !=
-:user_id
+LEFT JOIN user_books ub ON ub.book_id = w.book_id AND ub.status = 'available'AND ub.user_id != :user_id
 WHERE w.user_id = :user_id
 GROUP BY b.id, b.title, a.full_name, b.genre, w.created_at
 ORDER BY available_count DESC, w.created_at DESC;
 \end{lstlisting}
 
+\newpage
 \begin{center}
 Листинг 3.5 -- Расчёт рейтинга пользователя
 \end{center}
 \begin{lstlisting}
-SELECT
-u.id,
-u.username,
-u.rating AS stored_rating,
-ROUND(AVG(r.rating), 2) AS calculated_rating,
-COUNT(r.id) AS total_reviews,
-COUNT(e.id) AS total_exchanges
+SELECT u.id, u.username, u.rating AS stored_rating, ROUND(AVG(r.rating), 2) AS calculated_rating, COUNT(r.id) AS total_reviews, COUNT(e.id) AS total_exchanges
 FROM users u
 LEFT JOIN reviews r ON r.reviewee_id = u.id
 LEFT JOIN exchanges e ON e.id = r.exchange_id
 WHERE u.id = :user_id
 GROUP BY u.id, u.username, u.rating;
 \end{lstlisting}
-
 
 \end{document}
